@@ -1,0 +1,22 @@
+.popup {
+  visibility: hidden;
+  display: flex;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.5);
+
+  opacity: 0;
+  transition-property: opacity, visibility;
+  transition-duration: .5s;
+}
+
+@media (max-width: 320px) {
+
+  .popup {
+    padding: 0 19px;
+    box-sizing: border-box;
+  }
+}

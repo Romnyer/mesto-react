@@ -1,0 +1,8 @@
+.elements__item {
+  position: relative;
+
+  opacity: 1;
+  transition-property: opacity;
+  transition-timing-function: linear;
+  transition-duration: .5s;
+}

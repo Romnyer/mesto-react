@@ -1,0 +1,10 @@
+.popup__title_for_delete {
+  padding-bottom: 32px;
+}
+
+@media (max-width: 509px) {
+
+  .popup__title_for_delete {
+    padding: 19px 22px 32px;
+  }
+}

@@ -1,0 +1,33 @@
+.profile__edit-pic {
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+  background: url(../../../images/Edit_profile-avatar.svg) center center no-repeat, rgba(0, 0, 0, .8);
+
+  transition-property: opacity;
+  transition-duration: 0.8s;
+}
+
+.profile__edit-pic:hover {
+  opacity: 1;
+}
+
+
+.profile__pic::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+  background: url(../../../images/Edit_profile-avatar.svg) center center no-repeat, rgba(0, 0, 0, .8);
+
+  transition-property: opacity;
+  transition-duration: 0.8s;
+}
+
+.profile__pic:hover::before {
+  opacity: 1;
+}

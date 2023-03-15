@@ -1,0 +1,21 @@
+.main {
+  max-width: 880px;
+  min-height: 70vh;
+  margin: 0 auto;
+}
+
+@media (max-width: 918px) {
+
+  .main {
+    padding: 0 19px;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 320px) {
+
+  .main {
+    max-width: 320px;
+  }
+}
+

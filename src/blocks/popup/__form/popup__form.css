@@ -1,0 +1,22 @@
+.popup__form {
+  max-width: 430px;
+  box-sizing: border-box;
+  background: #fff;
+
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 509px) {
+
+  .popup__form {
+    max-width: calc(100vw - 38px);
+  }
+}
+
+@media (max-width: 320px) {
+
+  .popup__form {
+    max-width: 282px;
+  }
+}

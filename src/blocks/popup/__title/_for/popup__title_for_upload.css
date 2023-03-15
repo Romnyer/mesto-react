@@ -1,0 +1,10 @@
+.popup__title_for_upload {
+  padding-bottom: 49px;
+}
+
+@media (max-width: 509px) {
+
+  .popup__title_for_upload {
+    padding: 25px 22px 75px;
+  }
+}

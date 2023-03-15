@@ -1,0 +1,20 @@
+.popup__container {
+  position: relative;
+  display: block;
+  margin: auto;
+}
+
+@media (max-width: 509px) {
+
+  .popup__container {
+    max-width: calc(100vw - 38px);
+  }
+}
+
+@media (max-width: 320px) {
+
+  .popup__container {
+    max-width: 282px;
+  }
+}
+

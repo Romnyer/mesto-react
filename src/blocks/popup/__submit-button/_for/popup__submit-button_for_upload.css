@@ -1,0 +1,10 @@
+.popup__submit-button_for_upload {
+  margin: 30px 36px 36px;
+}
+
+@media (max-width: 509px) {
+
+  .popup__submit-button_for_upload {
+    margin: 26px 22px 25px;
+  }
+}

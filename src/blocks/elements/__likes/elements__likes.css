@@ -1,0 +1,6 @@
+.elements__likes {
+  height: 38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

@@ -1,0 +1,11 @@
+.popup__submit-button_for_delete {
+  margin: 0 36px 36px;
+}
+
+@media (max-width: 509px) {
+
+  .popup__submit-button_for_delete {
+    margin: 0 22px 25px;
+  }
+}
+

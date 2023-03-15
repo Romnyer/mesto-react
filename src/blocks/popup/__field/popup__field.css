@@ -1,0 +1,14 @@
+.popup__field {
+  padding: 0 0 9px;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.popup__field:focus {
+  border-radius: 3px;
+  outline: 3px solid rgba(0, 128, 210, 0.8);
+}
