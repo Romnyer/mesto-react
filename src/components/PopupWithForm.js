@@ -1,25 +1,20 @@
-import {useEffect} from "react";
-
-function PopupWithForm(props) {
-  useEffect(() => {
-    props.closeByEsc(props);
-  });
-
+function PopupWithForm({name, title, isOpen, onClose, valueText, submitClass, children}) {
   return (
     <div
-      className={`popup popup_type_${props.name}${props.isOpen ? ' popup_opened' : ''}`}
-      onClick={props.onClose}
+      className={`popup popup_type_${name}${isOpen ? ' popup_opened' : ''}`}
+      onClick={onClose}
     >
       <div className="popup__container">
         <button
           className="popup__close-button"
           type="button"
           aria-label="Кнопка закрытия формы"
-          onClick={props.onClose}>
+          onClick={onClose}>
         </button>
-        <form className={`popup__form popup__form_type_${props.name}`} name={`popup__form_type_${props.name}`} noValidate>
-          <h2 className="popup__title">{props.title}</h2>
-          {props.children}
+        <form className={`popup__form popup__form_type_${name}`} name={`popup__form_type_${name}`} noValidate>
+          <h2 className="popup__title">{title}</h2>
+          {children}
+          <input className={`popup__submit-button${submitClass ? submitClass : ''}`} name="popup__submit-button" type="submit" value={valueText}/>
         </form>
       </div>
     </div>

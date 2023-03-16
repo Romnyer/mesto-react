@@ -2,11 +2,11 @@ import {useEffect, useState} from "react";
 import api from '../utils/Api.js';
 import Card from "./Card.js";
 
-function Main(props) {
-  const [userName, setUserName] = useState(),
-        [userDescription, setUserDescription] = useState(),
-        [userAvatar, setUserAvatar] = useState(),
-        [userId, setUserId] = useState(),
+function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
+  const [userName, setUserName] = useState(''),
+        [userDescription, setUserDescription] = useState(''),
+        [userAvatar, setUserAvatar] = useState(''),
+        [userId, setUserId] = useState(''),
         [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function Main(props) {
         <div className="profile__avatar">
           <div
             className="profile__container"
-            onClick={props.onEditAvatar}>
+            onClick={onEditAvatar}>
             <img className="profile__pic" src={userAvatar} alt="Аватар"/>
             <div className="profile__edit-pic"></div>
           </div>
@@ -42,7 +42,7 @@ function Main(props) {
               className="profile__edit-button"
               type="button"
               aria-label="Кнопка редактирования профиля"
-              onClick={props.onEditProfile}>
+              onClick={onEditProfile}>
             </button>
           </div>
         </div>
@@ -51,7 +51,7 @@ function Main(props) {
           id="profile__add-button"
           type="button"
           aria-label="Кнопка добавления изображений"
-          onClick={props.onAddPlace}>
+          onClick={onAddPlace}>
         </button>
       </section>
 
@@ -60,7 +60,7 @@ function Main(props) {
 
           {/*Element template*/}
           {cards.map(item => (
-            <Card onCardClick={props.onCardClick} card={item} userId={userId} key={item._id}/>
+            <Card onCardClick={onCardClick} card={item} userId={userId} key={item._id}/>
           ))}
 
         </ul>
