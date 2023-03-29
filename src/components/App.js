@@ -6,7 +6,6 @@ import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import DeleteCardPopup from './DeleteCardPopup.js';
-import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
 import Footer from './Footer.js';
 
@@ -21,11 +20,27 @@ function App() {
         [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false),
         [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false),
         [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false),
+        [isImagePopupOpen, setIsImagePopupOpen] = useState(false),
         [selectedCard, setSelectedCard] = useState({}),
         [currentUser, setCurrentUser] = useState({}),
         [cards, setCards] = useState([]);
 
-  const allPopupSeters = [setIsEditProfilePopupOpen, setIsAddPlacePopupOpen, setIsEditAvatarPopupOpen, setIsDeletePopupOpen];
+  const allPopupSeters = [setIsEditProfilePopupOpen,
+                          setIsAddPlacePopupOpen,
+                          setIsEditAvatarPopupOpen,
+                          setIsDeletePopupOpen,
+                          setIsImagePopupOpen],
+        allPopunIsOpen = [isEditProfilePopupOpen,
+                          isAddPlacePopupOpen,
+                          isEditAvatarPopupOpen,
+                          isDeletePopupOpen,
+                          isImagePopupOpen];
+
+
+  const [profileSubmitValue, setProfileSubmitValue] = useState('Сохранить'),
+        [avatarSubmitValue, setAvatarSubmitValue] = useState('Сохранить'),
+        [placeSubmitValue, setPlaceSubmitValue] = useState('Создать'),
+        [deleteSubmitValue, setDeleteSubmitValue] = useState('Да');
 
 
   /* Set user info and cards array from fetch */
@@ -55,7 +70,6 @@ function App() {
     setIsEditAvatarPopupOpen(true);
   };
   function handleDeleteClick(card) {
-    console.log(card)
     setSelectedCard(card);
     setIsDeletePopupOpen(true);
   }
@@ -64,30 +78,35 @@ function App() {
   //Handle click on card pic
   function handleCardClick(card) {
     setSelectedCard(card);
+    setIsImagePopupOpen(true);
   };
 
   //Handle card like
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
-  };
-
-  //Handle card delete
-  function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter((c) => c._id !== card._id));
-    });
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch(err => console.log(err))
   };
 
 
   /* Submits */
 
 
+  //Timeout for visual effect
+  //Without timeout user will see effect of setPopupSubmitValue() before popup closed
+  const timeoutClosing = (seter, text) => {
+    setTimeout(() => {
+      seter(text);
+    },500)
+  };
+
   //Submit profile
-  function handleUpdateUser(name, description) {
+  function handleUpdateUser(name, description, valueText) {
+    setProfileSubmitValue('Сохранение');
     api.changeUserInfo(name, description)
       .then(userData => {
         setCurrentUser({
@@ -97,10 +116,13 @@ function App() {
         });
         closeAllPopups();
       })
+      .catch(err => console.log(err))
+        .finally(() => timeoutClosing(setProfileSubmitValue, valueText))
   };
 
   //Submit avatar
-  function handleUpdateAvatar(avatar) {
+  function handleUpdateAvatar(avatar, valueText) {
+    setAvatarSubmitValue('Сохранение');
     api.changeAvatar(avatar)
       .then(userData => {
         setCurrentUser({
@@ -109,15 +131,32 @@ function App() {
         });
         closeAllPopups();
       })
+      .catch(err => console.log(err))
+        .finally(() => timeoutClosing(setAvatarSubmitValue, valueText))
   };
 
   //Sumbit place
-  function handleAddPlace(place, link) {
+  function handleAddPlace(place, link, valueText) {
+    setPlaceSubmitValue('Создание');
     api.addCard(place, link)
       .then(newCard => {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
+      .catch(err => console.log(err))
+        .finally(() => timeoutClosing(setPlaceSubmitValue, valueText))
+  };
+
+  //Submit delete card
+  function handleCardDelete(card, valueText) {
+    setDeleteSubmitValue('Удаление');
+    api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id));
+      closeAllPopups();
+    })
+    .catch(err => console.log(err))
+      .finally(() => timeoutClosing(setDeleteSubmitValue, valueText))
+
   };
 
 
@@ -130,21 +169,11 @@ function App() {
     })
   };
 
-  function closeImagePopup() {
-    setSelectedCard({});
-  };
-
   //Close popups by Esc
   useEffect(() => {
     function closePopupByEsc(evt) {
       if (evt.key === esc) {
-        if (isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen) {
-          closeAllPopups();
-        }
-
-        if (selectedCard.name) {
-          closeImagePopup();
-        }
+        closeAllPopups();
       }
     }
 
@@ -153,7 +182,7 @@ function App() {
     return () => {
       document.removeEventListener('keydown', closePopupByEsc);
     }
-  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, selectedCard]);
+  }, [allPopunIsOpen]);
 
 
   return (
@@ -177,6 +206,7 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          valueText={profileSubmitValue}
         />
 
         {/*Add element popup*/}
@@ -185,11 +215,16 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlace}
+          valueText={placeSubmitValue}
         />
 
         {/*Pic popup*/}
 
-        <ImagePopup card={selectedCard} onClose={closeImagePopup}/>
+        <ImagePopup
+          card={selectedCard}
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+        />
 
         {/*Delete popup*/}
 
@@ -198,6 +233,7 @@ function App() {
           isOpen={isDeletePopupOpen}
           onClose={closeAllPopups}
           onSubmit={handleCardDelete}
+          valueText={deleteSubmitValue}
         />
 
         {/*Upload popup*/}
@@ -206,6 +242,7 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          valueText={avatarSubmitValue}
         />
 
       </div>

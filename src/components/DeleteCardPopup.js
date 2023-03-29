@@ -1,11 +1,9 @@
-import {React} from 'react';
 import PopupWithForm from './PopupWithForm.js';
 
-function DeleteCardPopup({card, isOpen, onClose, onSubmit}) {
+function DeleteCardPopup({card, isOpen, onClose, onSubmit, valueText}) {
   function handleDeleteSubmit(evt) {
-    console.log(card)
     evt.preventDefault();
-    onSubmit(card);
+    onSubmit(card, valueText);
   };
 
   return (
@@ -15,7 +13,7 @@ function DeleteCardPopup({card, isOpen, onClose, onSubmit}) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleDeleteSubmit}
-      valueText={"Да"}
+      valueText={valueText}
       submitClass={" popup__submit-button_for_delete"}
     />
   );
