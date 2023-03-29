@@ -26,7 +26,7 @@ class Api {
     .then(res => this.handleResponse(res));
   }
 
-  //Add new card
+
   addCard(newName, newLink) {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
@@ -47,7 +47,7 @@ class Api {
     .then(res => this.handleResponse(res));
   }
 
-  //Like card
+
   likeCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: 'PUT',
@@ -56,13 +56,22 @@ class Api {
     .then(res => this.handleResponse(res));
   }
 
-  //Dislike card
+
   dislikeCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers
     })
     .then(res => this.handleResponse(res));
+  }
+
+  changeLikeCardStatus(cardId, isLiked) {
+    if (isLiked) {
+      return this.likeCard(cardId);
+    }
+    else {
+      return this.dislikeCard(cardId);
+    }
   }
 
   //Change user NAME and ABOUT in url/users/me
