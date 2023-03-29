@@ -1,8 +1,19 @@
+import {useRef} from 'react';
+
 function PopupWithForm({name, title, isOpen, onClose, valueText, submitClass, children}) {
+  const popup = useRef();
+
+  function handleClose(evt) {
+    if (evt.target === popup.current) {
+      onClose();
+    }
+  }
+
   return (
     <div
       className={`popup popup_type_${name}${isOpen ? ' popup_opened' : ''}`}
-      onClick={onClose}
+      onClick={handleClose}
+      ref={popup}
     >
       <div className="popup__container">
         <button
