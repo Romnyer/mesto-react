@@ -1,9 +1,9 @@
 import PopupWithForm from './PopupWithForm.js';
 
-function DeleteCardPopup({card, isOpen, onClose, onSubmit, valueText}) {
+function DeleteCardPopup({card, isOpen, onClose, onSubmit, handleCloseByClick, isLoading}) {
   function handleDeleteSubmit(evt) {
     evt.preventDefault();
-    onSubmit(card, valueText);
+    onSubmit(card);
   };
 
   return (
@@ -13,8 +13,11 @@ function DeleteCardPopup({card, isOpen, onClose, onSubmit, valueText}) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleDeleteSubmit}
-      valueText={valueText}
       submitClass={" popup__submit-button_for_delete"}
+      handleCloseByClick={handleCloseByClick}
+      valueText={'Да'}
+      valueLoadingText={'Удаление...'}
+      isLoading={isLoading}
     />
   );
 };

@@ -10,7 +10,7 @@ import ImagePopup from './ImagePopup.js';
 import Footer from './Footer.js';
 
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
-import api from '../utils/Api.js';
+import api from '../utils/api.js';
 
 const esc = 'Escape';
 
@@ -30,17 +30,17 @@ function App() {
                           setIsEditAvatarPopupOpen,
                           setIsDeletePopupOpen,
                           setIsImagePopupOpen],
-        allPopunIsOpen = [isEditProfilePopupOpen,
+        allPopupIsOpen = [isEditProfilePopupOpen,
                           isAddPlacePopupOpen,
                           isEditAvatarPopupOpen,
                           isDeletePopupOpen,
                           isImagePopupOpen];
 
+  const isAnyPopupOpen = allPopupIsOpen.some(popup => {
+    return popup === true;
+  });
 
-  const [profileSubmitValue, setProfileSubmitValue] = useState('Сохранить'),
-        [avatarSubmitValue, setAvatarSubmitValue] = useState('Сохранить'),
-        [placeSubmitValue, setPlaceSubmitValue] = useState('Создать'),
-        [deleteSubmitValue, setDeleteSubmitValue] = useState('Да');
+  const [isLoading, setIsLoading] = useState(false);
 
 
   /* Set user info and cards array from fetch */
@@ -72,7 +72,12 @@ function App() {
   function handleDeleteClick(card) {
     setSelectedCard(card);
     setIsDeletePopupOpen(true);
-  }
+  };
+  function handleCloseByClick(evt, ref) {
+    if (evt.target === ref.current) {
+      closeAllPopups();
+    }
+  };
 
 
   //Handle click on card pic
@@ -97,16 +102,16 @@ function App() {
 
 
   //Timeout for visual effect
-  //Without timeout user will see effect of setPopupSubmitValue() before popup closed
-  const timeoutClosing = (seter, text) => {
+  //Without timeout user will see effect of setIsLoading() before popup closed
+  function timeoutClosing() {
     setTimeout(() => {
-      seter(text);
+      setIsLoading(false);;
     },500)
   };
 
   //Submit profile
-  function handleUpdateUser(name, description, valueText) {
-    setProfileSubmitValue('Сохранение');
+  function handleUpdateUser(name, description) {
+    setIsLoading(true);
     api.changeUserInfo(name, description)
       .then(userData => {
         setCurrentUser({
@@ -117,12 +122,12 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(err))
-        .finally(() => timeoutClosing(setProfileSubmitValue, valueText))
+        .finally(() => timeoutClosing())
   };
 
   //Submit avatar
-  function handleUpdateAvatar(avatar, valueText) {
-    setAvatarSubmitValue('Сохранение');
+  function handleUpdateAvatar(avatar) {
+    setIsLoading(true);
     api.changeAvatar(avatar)
       .then(userData => {
         setCurrentUser({
@@ -132,30 +137,30 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(err))
-        .finally(() => timeoutClosing(setAvatarSubmitValue, valueText))
+        .finally(() => timeoutClosing())
   };
 
   //Sumbit place
-  function handleAddPlace(place, link, valueText) {
-    setPlaceSubmitValue('Создание');
+  function handleAddPlace(place, link) {
+    setIsLoading(true);
     api.addCard(place, link)
       .then(newCard => {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch(err => console.log(err))
-        .finally(() => timeoutClosing(setPlaceSubmitValue, valueText))
+        .finally(() => timeoutClosing())
   };
 
   //Submit delete card
-  function handleCardDelete(card, valueText) {
-    setDeleteSubmitValue('Удаление');
+  function handleCardDelete(card) {
+    setIsLoading(true);
     api.deleteCard(card._id).then(() => {
       setCards((state) => state.filter((c) => c._id !== card._id));
       closeAllPopups();
     })
     .catch(err => console.log(err))
-      .finally(() => timeoutClosing(setDeleteSubmitValue, valueText))
+      .finally(() => timeoutClosing())
 
   };
 
@@ -175,14 +180,17 @@ function App() {
       if (evt.key === esc) {
         closeAllPopups();
       }
-    }
+    };
 
-    document.addEventListener('keydown', closePopupByEsc);
+    if (isAnyPopupOpen) {
+      document.addEventListener('keydown', closePopupByEsc);
+    }
 
     return () => {
       document.removeEventListener('keydown', closePopupByEsc);
     }
-  }, [allPopunIsOpen]);
+  }, [...allPopupIsOpen]);
+
 
 
   return (
@@ -206,43 +214,48 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
-          valueText={profileSubmitValue}
+          isLoading={isLoading}
+          handleCloseByClick={handleCloseByClick}
         />
 
-        {/*Add element popup*/}
+        {/*Avatar popup*/}
+
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}
+          handleCloseByClick={handleCloseByClick}
+        />
+
+        {/*Add place popup*/}
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlace}
-          valueText={placeSubmitValue}
+          isLoading={isLoading}
+          handleCloseByClick={handleCloseByClick}
         />
 
-        {/*Pic popup*/}
-
-        <ImagePopup
-          card={selectedCard}
-          isOpen={isImagePopupOpen}
-          onClose={closeAllPopups}
-        />
-
-        {/*Delete popup*/}
+        {/*Delete place popup*/}
 
         <DeleteCardPopup
           card={selectedCard}
           isOpen={isDeletePopupOpen}
           onClose={closeAllPopups}
           onSubmit={handleCardDelete}
-          valueText={deleteSubmitValue}
+          isLoading={isLoading}
+          handleCloseByClick={handleCloseByClick}
         />
 
-        {/*Upload popup*/}
+        {/*Place popup*/}
 
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
+        <ImagePopup
+          card={selectedCard}
+          isOpen={isImagePopupOpen}
           onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar}
-          valueText={avatarSubmitValue}
+          handleCloseByClick={handleCloseByClick}
         />
 
       </div>

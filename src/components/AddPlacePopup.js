@@ -1,13 +1,13 @@
 import {useRef} from 'react';
 import PopupWithForm from './PopupWithForm.js';
 
-function AddPlacePopup({isOpen, onClose, onAddPlace, valueText}) {
+function AddPlacePopup({isOpen, onClose, onAddPlace, handleCloseByClick, isLoading}) {
   const place = useRef(),
         link = useRef();
 
   function handlePlaceSubmit(evt) {
     evt.preventDefault();
-    onAddPlace(place.current.value, link.current.value, valueText);
+    onAddPlace(place.current.value, link.current.value);
   }
 
   return (
@@ -16,8 +16,11 @@ function AddPlacePopup({isOpen, onClose, onAddPlace, valueText}) {
       title="Новое место"
       isOpen={isOpen}
       onClose={onClose}
-      valueText={valueText}
       onSubmit={handlePlaceSubmit}
+      handleCloseByClick={handleCloseByClick}
+      valueText={'Создать'}
+      valueLoadingText={'Создание...'}
+      isLoading={isLoading}
     >
       <label className="popup__label">
         <input

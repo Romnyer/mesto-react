@@ -32,7 +32,7 @@ function Card({card, onCardClick, onCardLike, onCardDelete}) {
           type="button"
           aria-label="Кнопка &#8243;удалить&#8243;"
           onClick={handleDelete}
-        ></button>
+        />
       )}
       <div className="elements__info">
         <h2 className="elements__title">{card.name}</h2>
