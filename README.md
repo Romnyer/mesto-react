@@ -12,7 +12,7 @@ Mesto – это **проект** для публикации изображен
 
 **Ссылка на страницу**
 
-[Mesto](https://romnyer.github.io/mesto/)
+[Mesto](https://romnyer.github.io/mesto-react/)
 
 **Figma**
 
