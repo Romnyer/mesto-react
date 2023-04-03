@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/mesto-react/static/css/main.6dc43bc2.css",
+    "main.js": "/mesto-react/static/js/main.4437efaf.js",
+    "static/js/787.7e45d085.chunk.js": "/mesto-react/static/js/787.7e45d085.chunk.js",
+    "static/media/Inter-Medium.woff2": "/mesto-react/static/media/Inter-Medium.293fd13dbca5a3e450ef.woff2",
+    "static/media/Inter-Black.woff2": "/mesto-react/static/media/Inter-Black.15ca31c0a2a68f76d2d1.woff2",
+    "static/media/Inter-Regular.woff2": "/mesto-react/static/media/Inter-Regular.c8ba52b05a9ef10f4758.woff2",
+    "static/media/Logo.svg": "/mesto-react/static/media/Logo.e1792cd1bf55c68d1538deb5b248d425.svg",
+    "static/media/Like.svg": "/mesto-react/static/media/Like.87ed371465c7a6a1cd01.svg",
+    "index.html": "/mesto-react/index.html",
+    "static/media/Trash-button.svg": "/mesto-react/static/media/Trash-button.823b0cf1b0b7e9cb7cad.svg",
+    "static/media/Like-black.svg": "/mesto-react/static/media/Like-black.fe17a515669479b1e649.svg",
+    "static/media/Edit-button-small.svg": "/mesto-react/static/media/Edit-button-small.2f7be95ab48bbff7d88c.svg",
+    "static/media/Edit-button.svg": "/mesto-react/static/media/Edit-button.8667ac4a523e8fc42e59.svg",
+    "static/media/Edit_profile-avatar.svg": "/mesto-react/static/media/Edit_profile-avatar.a086f758840ae814ecde.svg",
+    "static/media/Close-Icon-large.svg": "/mesto-react/static/media/Close-Icon-large.2ceb783afbab75916ddc.svg",
+    "static/media/Plus-small.svg": "/mesto-react/static/media/Plus-small.54b1426515811a15ebaf.svg",
+    "static/media/Plus.svg": "/mesto-react/static/media/Plus.d86bb2edc2f6eadb96b7.svg",
+    "static/media/Close-Icon-small.svg": "/mesto-react/static/media/Close-Icon-small.b793e07c3f4c19e26c11.svg",
+    "main.6dc43bc2.css.map": "/mesto-react/static/css/main.6dc43bc2.css.map",
+    "main.4437efaf.js.map": "/mesto-react/static/js/main.4437efaf.js.map",
+    "787.7e45d085.chunk.js.map": "/mesto-react/static/js/787.7e45d085.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6dc43bc2.css",
+    "static/js/main.4437efaf.js"
+  ]
+}
